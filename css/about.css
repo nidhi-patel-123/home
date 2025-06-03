@@ -1,0 +1,130 @@
+
+
+/* Hero section styles */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  background: url("../images/hero.avif") no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  object-fit: cover;
+
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+
+.hero h2 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
+}
+
+.hero h1 {
+  font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.hero p {
+  font-weight: 400;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 140px;
+}
+
+.btn-primary {
+  background-color: #657463;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #5b685a;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-secondary:hover {
+  background-color: white;
+  color: #657463;
+}
+
+/* Responsive hero */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero h2 {
+    font-size: 1.2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .hero-buttons {
+    flex-direction: column;
+  }
+  .btn-primary,
+  .btn-secondary {
+    min-width: 100%;
+  }
+  /* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 600;
+
+
+}
+.menu-toggle {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  margin-top: -40px;
+}
+
+}
