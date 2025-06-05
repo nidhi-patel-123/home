@@ -1,38 +1,67 @@
 
    
     /* Hero section styles */
-    .hero {
-      position: relative;
-      min-height: 90vh;
-      background: url('./images/hero.avif') no-repeat center center/cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      color: white;
-      text-align: center;
-      overflow: hidden;
-      /* margin-top: 70px; To avoid being hidden behind fixed header */
-    }
+   .hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3rem;
+  color: white;
+  overflow: hidden;
+  justify-content: center;
+ 
+}
 
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 1;
-    }
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      /* max-width: 700px; */
-    }
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* optional overlay */
+  z-index: -1;
+}
+
+.hero-content {
+  /* max-width: 700px; */
+  z-index: 1;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 10px 20px;
+  margin-right: 15px;
+  background-color: #657463;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
 
     .hero h2 {
       font-weight: 600;
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
       opacity: 0.85;
+      
     }
 
     .hero h1 {
@@ -1198,86 +1227,93 @@
       background-color: #5f6d58;
     }
     /* ------------------------------------------------------------------ */
-           .footer {
-      background-color: #121e1e;
-      padding: 60px 20px 20px;
+       .footer {
+      background-color: #111c1c;
+      padding: 55px 0 35px;
+      font-size: 15px;
+      color: white;
     }
 
-    .footer-logo {
+    .footer .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 40px;
+      margin-bottom: 22px;
     }
 
-    .footer-logo img {
-      height: 40px;
+    .footer .logo img {
+      height: 38px;
+      margin-right: 10px;
     }
 
-    .footer h5 {
-      font-weight: 700;
-      margin-bottom: 20px;
+    .footer h6 {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 18px;
     }
 
     .footer ul {
       list-style: none;
-      padding: 0;
+      padding-left: 0;
+      margin-bottom: 0;
     }
 
     .footer ul li {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .footer ul li a {
       color: #fff;
       text-decoration: none;
-      transition: color 0.3s;
     }
 
     .footer ul li a:hover {
-      color: #acc4a9;
+      text-decoration: underline;
     }
 
-    .footer .social-icon a {
-      color: #fff;
-      font-size: 18px;
-      margin-right: 15px;
-      display: inline-block;
-      transition: color 0.3s;
+    .contact-info li {
+      margin-bottom: 10px;
     }
 
-    .footer .social-icon a:hover {
-      color: #acc4a9;
+    .contact-info i {
+      width: 16px;
+      margin-right: 8px;
+      color: #ccc;
     }
 
-    .footer .form-control {
-      border-radius: 0;
-      border: none;
-      padding: 14px;
+    .social-icons .circle {
+      background-color: #fff;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
     }
 
-    .footer .btn {
-      border-radius: 0;
-      background-color: transparent;
-      color: #000;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid #293737;
-      margin-top: 40px;
-      padding-top: 20px;
-      text-align: center;
-      color: #aaa;
+    .social-icons .circle i {
+      color: #111c1c;
       font-size: 14px;
     }
 
-    .footer .contact-info i {
-      color: #acc4a9;
-      margin-right: 10px;
+    .newsletter .input-group input {
+      border: none;
+      font-size: 14px;
     }
 
-    .footer .contact-info p {
-      margin-bottom: 15px;
+    .newsletter .input-group .input-group-text {
+      background-color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 30px;
     }
     /* ----------------------------------------------------------------- */
     
