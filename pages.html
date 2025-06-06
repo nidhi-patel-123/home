@@ -15,21 +15,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 <!-- <link rel="stylesheet" href="style.css"> -->
- <link rel="stylesheet" href="css/service.css">
+ <link rel="stylesheet" href="css/pages.css">
+
   <style>
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
+  
     }
 
     header {
-      background-color: #1e1f22;
       padding: 10px 20px;
-      position: relative;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.205);
+      background: transparent;
+      transition: background-color 0.3s ease;
+    }
+    /* Background on scroll (optional) */
+    window-scrolled header {
+      background-color: rgba(30, 31, 34, 0.9);
+    }
+
+    .navbar-container {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
+      padding: 10px;
     }
 
     .logo {
@@ -38,6 +54,8 @@
       color: white;
       font-weight: bold;
       font-size: 20px;
+      margin-right: 20px;
+      user-select: none;
     }
 
     .logo img {
@@ -49,134 +67,142 @@
 
     nav {
       flex-grow: 1;
-      text-align: center;
+      display: flex;
+      justify-content: center;
     }
 
     nav ul {
       list-style: none;
-      padding-left: 0;
       margin: 0;
+      padding: 0;
       display: flex;
-      justify-content: center;
+      gap: 20px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     nav ul li {
       position: relative;
-      margin: 0 12px;
     }
 
     nav ul li a {
       color: white;
       text-decoration: none;
-      padding: 8px 10px;
+      padding: 6px 10px;
       display: block;
+      line-height: 1.2;
+      user-select: none;
     }
 
+    /* Arrow for dropdown parent items */
     .has-dropdown > a::after {
       content: " ▼";
       font-size: 0.7rem;
+      margin-left: 4px;
     }
 
+    /* Dropdown container */
     .dropdown {
       position: absolute;
-      display: none;
-      background: #333;
-      padding: 10px 0;
-      border-radius: 4px;
       top: 100%;
       left: 0;
+      background: #657463;
+      border-radius: 4px;
       min-width: 160px;
-      z-index: 1000;
-      align-items: start;
+      max-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      z-index: 999;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
     }
 
-    .has-dropdown:hover .dropdown {
-      display: block;
+    /* Dropdown active state */
+    .has-dropdown.active > .dropdown,
+    nav ul li:hover > .dropdown {
+      max-height: 500px; /* enough to show all items */
+      padding: 10px 0;
     }
 
     .dropdown a {
-      display: block;
       padding: 8px 16px;
       color: white;
       text-decoration: none;
-      justify-content: start;
-      align-items: start;
-      text-align: start;
-
+      white-space: nowrap;
+      user-select: none;
     }
 
     .dropdown a:hover {
-      background-color: #555;
+      background: #4d5c4adc;
     }
 
- .cta {
-  position: relative;
-  display: inline-block;
-  padding: 0.6rem 1rem;
-  color: white;
-  background: #657463;
-  border: 2px solid #657463;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  overflow: hidden;
-  transition: background 0.3s ease;
-  z-index: 1;
-}
+    /* Call to action button */
+    .cta {
+      padding: 0.6rem 1rem;
+      color: white;
+      background: #657463;
+      border: 2px solid #657463;
+      border-radius: 4px;
+      font-weight: bold;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
 
-.cta::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: skewX(-20deg);
-  transition: left 0.5s ease;
-  z-index: 2;
-}
+    .cta::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+      z-index: 2;
+    }
 
-.cta:hover::before {
-  left: 125%;
-}
+    .cta:hover::before {
+      left: 125%;
+    }
 
-.cta:hover {
-  background: #5b685a;
-}
+    .cta:hover {
+      background: #5b685a;
+    }
 
-/* Hamburger toggle button */
-.menu-toggle {
-  display: none;
-  font-size: 1.8rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  user-select: none;
-}
-
-
+    /* Hamburger menu toggle */
     .menu-toggle {
       display: none;
-      font-size: 24px;
+      font-size: 28px;
       background: none;
       color: white;
       border: none;
+      cursor: pointer;
+      user-select: none;
     }
 
-    @media (max-width: 768px) {
-      header {
+    /* Mobile styles */
+    @media (max-width: 1087px) {
+      .navbar-container {
         flex-direction: column;
         align-items: flex-start;
+      }
+
+      header {
+        background-color: rgba(30, 31, 34, 0.95);
+        border-bottom: 1px solid white;
       }
 
       .menu-toggle {
         display: block;
         align-self: flex-end;
-        margin-top: -40px;
+        margin-top: -45px;
+        margin-bottom: 10px;
       }
 
       nav {
@@ -188,6 +214,8 @@
         align-items: flex-start;
         display: none;
         width: 100%;
+        margin-top: 0;
+        padding-left: 0;
       }
 
       nav ul.active {
@@ -199,342 +227,318 @@
         border-bottom: 1px solid #444;
       }
 
-      .dropdown {
-        position: relative;
-        background: #2a2a2a;
-        padding-left: 20px;
+ .dropdown {
+    position: relative;
+    background: #2a2a2a;
+    padding-left: 15px; /* thoda kam kiya */
+    border-radius: 0;
+    min-width: unset;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    margin: 0; /* extra space hatao */
+  }
+  .has-dropdown.active .dropdown {
+    display: flex;
+    max-height: 400px; /* thoda kam kiya */
+    padding-top: 8px;  /* kam padding */
+    padding-bottom: 8px; /* kam padding */
+    flex-direction: column;
+    margin: 0; /* margin hatao */
+  }
+  
 
-      }
-
-      .has-dropdown:hover .dropdown {
-        display: none;
-      }
-
-      .has-dropdown.active .dropdown {
-        display: block;
+      /* Show dropdown when active in mobile */
+      .has-dropdown.active > .dropdown {
+        max-height: 500px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        flex-direction: column;
       }
 
       .cta {
-        margin: 10px 0;
+        display: none;
       }
-      nav ul a{
-        text-align: start;
-      }
+        nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    display: none;
+    width: 100%;
+    margin-top: 10px;
+  }
+  nav ul.active {
+    display: flex;
+  }
+  nav ul li {
+    width: 100%;
+    border-bottom: 1px solid #444;
+    position: relative;  /* Add this */
+  }
+  .dropdown {
+    position: absolute;   /* Change from relative to absolute */
+    top: 100%;           /* Exactly parent ke niche */
+    left: 0;
+    background: #657463;
+    padding-left: 15px;
+    border-radius: 0;
+    min-width: 100%;     /* Full width of parent li */
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    margin: 0;
+    z-index: 1000;
+  }
+  .has-dropdown.active .dropdown {
+    display: flex;
+    max-height: 400px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    flex-direction: column;
+    margin: 0;
+  }
     }
+
+    /* Hero section styles */
+    .hero {
+      background: url('./images/hero.avif') no-repeat center center/cover;
+      height: 60vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 120px;
+      text-align: center;
+      color: white;
+      user-select: none;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero-content h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      opacity: 0.85;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      margin: 20px 0 30px;
+      line-height: 1.5;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background-color: #657463;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #54604f;
+    }
+
+    .btn-secondary {
+      background-color: white;
+      color: #657463;
+      border: 2px solid #657463;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #657463;
+      color: white;
+    }
+    
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <img src="https://cdn-icons-png.freepik.com/256/12954/12954067.png" alt="Logo">
-    Inspaire
+  <div class="navbar-container">
+    <div class="logo">
+      <img src="https://cdn-icons-png.freepik.com/256/12954/12954067.png" alt="Logo" />
+      Inspaire
+    </div>
+
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+
+    <nav>
+      <ul id="menu">
+        <li class="has-dropdown">
+          <a href="index.html">Home</a>
+          <div class="dropdown">
+            <a href="home-image.html">Home-Image</a>
+            <a href="home-video.html">Home-Video</a>
+            <a href="home-slider.html">Home-Slider</a>
+          </div>
+        </li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="service.html">Services</a></li>
+        <li><a href="project.html">Projects</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li class="has-dropdown">
+          <a href="pages.html">Pages</a>
+          <div class="dropdown">
+            <a href="Service-Details.html">Service Details</a>
+            <a href="project-details.html">Project Details</a>
+            <a href="blog-details.html">Blog Details</a>
+            <a href="image-gallery.html">Image Gallery</a>
+            <a href="faqs.html">FAQs</a>
+            <a href="error.html">404</a>
+          </div>
+        </li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <a href="contact.html"><button class="cta">Get In Touch →</button></a>
   </div>
-
-  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-    ☰
-  </button>
-
-  <nav>
-    <ul id="menu">
-  <li class="has-dropdown">
-        <a href="index.html">Home</a>
-        <div class="dropdown">
-          <a href="home-image.html">Home-Image</a>
-          <a href="home-video.html">Home-Video</a>
-          <a href="home-slider.html">Home-Slider</a>
-       
-        </div>
-      </li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="service.html">Services</a></li>
-      <li><a href="project.html">Projects</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li class="has-dropdown">
-        <a href="pages.html">Pages</a>
-        <div class="dropdown">
-          <a href="Service-Details.html" style="text-align: start  ;">Service Details</a>
-          <a href="project-details.html">Project Details</a>
-          <a href="blog-details.html">Blog Details</a>
-          <a href="image-gallery.html">Image Gallery</a>
-          <a href="faqs.html">FAQs</a>
-          <a href="error.html">404</a>
-        </div>
-      </li>
-      <li><a href="contact.html">Contact Us</a></li>
-      <li>
-        <a href="contact.html"><button class="cta">Get In Touch →</button></a>
-      </li>
-    </ul>
-  </nav>
 </header>
 <!-- -----------------------------------heroooooooooooooooo------------------------ -->
  <section class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h2 style="font-size: 70px;">Services</h2>
-      <h1 style="font-size: 20px;">Home&nbsp/&nbsp <span style="color: #93aa90;">Services </span></h1>
+      <h2 style="font-size: 70px;">Pages</h2>
+      <h1 style="font-size: 20px;">Home&nbsp/&nbsp <span style="color: #93aa90;">Pages</span></h1>
     </div>
   </section>
+<div class="container">
 
-<!-- ------------------------------------------------------------------------------------- -->
-<section class="container py-5">
-  <div class="row mb-4">
-    <div class="col-md-6" data-aos="fade-right">
-      <p class="" style="color: #657463;font-size: 18px;font-weight: bolder;">— Our Services</p>
-      <h2 class="section-title" style="color: #1e1f22;font-size: 50px;">Innovative design services<br><span class="section-subtitle">for every need</span></h2>
-    </div>
-    <div class="col-md-6 d-flex align-items-center" data-aos="fade-left">
-      <p class="text-muted">We offer a range of bespoke interior design services tailored to your unique needs. From concept development to final installation.</p>
+  <!-- service-details -->
+  <div class="feature-box" data-aos="fade-up">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6 image-hover">
+        <img src="https://img.freepik.com/free-photo/yellow-armchair-living-room-with-copy-space_43614-940.jpg?uid=R195395238&ga=GA1.1.1975205788.1747372593&semt=ais_hybrid&w=740" alt="Tic Tac Toe Pro" class="feature-image">
+      </div>
+      <div class="col-md-6">
+        <h4 class="fw-bold">SERVICE-DETAILS</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero id non aspernatur possimus, inventore ea recusandae dicta magni molestiae doloribus dolores ipsa laudantium quas natus, consequatur iure illum aut. A.</p>
+       
+        <a href="Service-Details.html"> <button class="read-more-btn cta mt-3">Read More →</button></a>
+      </div>
     </div>
   </div>
 
-  <div class="row g-4">
-    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
-      <div class="service-card image-hover">
-        <img src="https://img.freepik.com/free-photo/modern-styled-small-entryway_23-2150713053.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_items_boosted&w=740" alt="Residential Interior Design">
-        <div class="arrow-icon">
-       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
-</svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title">Residential Interior Design</div>
-          <div class="card-desc">We create personalized living spaces that reflect your style and functional needs.</div>
-        </div>
+  <!-- Project detaail -->
+  <div class="feature-box" data-aos="fade-up">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6 order-md-2 image-hover">
+        <img src="https://img.freepik.com/free-photo/armchair-living-room-with-copy-space_43614-908.jpg?uid=R195395238&ga=GA1.1.1975205788.1747372593&semt=ais_hybrid&w=740" alt="Photo Recovery" class="feature-image">
       </div>
-    </div>
+      <div class="col-md-6 order-md-1">
+        <h4 class="fw-bold">PROJECT-DETAILS</h4>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur sint quos possimus in iure qui culpa sapiente libero magnam quidem. Natus, porro voluptatem odio, officiis temporibus sit dicta voluptates, itaque totam laudantium autem.</p>
+            <a href="project-details.html"> <button class="read-more-btn cta mt-3">Read More →</button></a>
 
-    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
-      <div class="service-card image-hover">
-        <img src="https://img.freepik.com/free-photo/ai-generated-modern-styled-entryway_23-2150692157.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_items_boosted&w=740" alt="Commercial Interior Design">
-        <div class="arrow-icon">
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
-</svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title">Commercial Interior Design</div>
-          <div class="card-desc">Enhancing business environments with professional, functional, and aesthetically.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
-      <div class="service-card image-hover">
-        <img src="https://img.freepik.com/free-photo/modern-styled-small-entryway_23-2150713057.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_items_boosted&w=740" alt="Furniture and Decor Selection">
-        <div class="arrow-icon">
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
-</svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title">Furniture And Decor Selection</div>
-          <div class="card-desc">Our experts help you choose the perfect furniture and decor complement your style.</div>
-        </div>
-      </div>
-    </div>
-
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
-      <div class="service-card image-hover">
-        <img src="./images/service3.avif" alt="Furniture and Decor Selection">
-        <div class="arrow-icon">
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
-</svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title">Furniture And Decor Selection</div>
-          <div class="card-desc">Our experts help you choose the perfect furniture and decor complement your style.</div>
-        </div>
-      </div>
-    </div>
-
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
-      <div class="service-card image-hover">
-        <img src="./images/service2.avif" alt="Furniture and Decor Selection">
-        <div class="arrow-icon">
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
-</svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title">Furniture And Decor Selection</div>
-          <div class="card-desc">Our experts help you choose the perfect furniture and decor complement your style.</div>
-        </div>
-      </div>
-    </div>
-
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
-      <div class="service-card image-hover">
-        <img src="./images/service1.avif" alt="Furniture and Decor Selection">
-        <div class="arrow-icon">
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
-</svg>
-        </div>
-        <div class="card-content">
-          <div class="card-title">Furniture And Decor Selection</div>
-          <div class="card-desc">Our experts help you choose the perfect furniture and decor complement your style.</div>
-        </div>
       </div>
     </div>
   </div>
-</section>
-<!-- ------------------------------------------------------------------------------------------------------------------------ -->
-  <section class="section-different">
-    <div class="container">
-      <div class="text-center mb-5" data-aos="fade-up">
-        <h2>We do things <span style="color: #657463;"> differently</span></h2>
-        <p>There are basically six key areas to higher achievement. Some people will tell you there are four while others may tell you there are eight. One thing for certain though, is that irrespective of the number of steps the experts talk about, they all originate from the same roots.</p>
+
+
+    
+  <div class="feature-box" data-aos="fade-up">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6 image-hover">
+        <img src="https://img.freepik.com/free-photo/armchair-green-living-room-with-copy-space_43614-910.jpg?uid=R195395238&ga=GA1.1.1975205788.1747372593&semt=ais_hybrid&w=740" alt="Tic Tac Toe Pro" class="feature-image">
       </div>
+      <div class="col-md-6">
+        <h4 class="fw-bold">BLOG-DETAILS</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores sapiente nobis iusto ratione sint quo enim voluptatem quos eaque numquam iure veritatis voluptates, cum harum? Id atque sint repellendus molestiae.</p>
+           <a href="blog-details.html"> <button class="read-more-btn cta mt-3">Read More →</button></a>
 
-      <div class="row g-4">
-        <!-- First Image -->
-        <div class="col-lg-4 col-md-12 image-hover" data-aos="fade-right">
-          <img src="https://img.freepik.com/premium-photo/arafed-living-room-with-couch-generative-ai_955925-19223.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_hybrid&w=740" alt="Kitchen" class="img-fluid" style="height: 350px;width: 100%;">
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto perferendis praesentium ea officia, deserunt dignissimos deleniti sint neque quisquam enim alia.</p>
-        </div>
-        
-
-        <!-- Second Image -->
-        <div class="col-lg-4 col-md-12 image-hover" data-aos="fade-up">
-          <img src="https://img.freepik.com/premium-vector/interior-with-big-windows-armchair-lamp-table-eco-minimalism-style_1284-45518.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_hybrid&w=740" alt="Interior Decor" class="img-fluid" style="height: 450px;object-fit: cover;">
-        </div>
-
-        <!-- Steps List -->
-        <div class="col-lg-4 col-md-12" data-aos="fade-left">
-          <div class="steps-box h-100 d-flex flex-column justify-content-between">
-            <ul>
-              <li>Making the decision</li>
-              <li>Clarity developing the vision</li>
-              <li>Focus having a plan</li>
-              <li>From my perspective then</li>
-              <li>Just to bring it into focus</li>
-              <li>Just to bring it into focus</li>
-              <li>From my perspective then</li>
-
-
-            </ul>
-            <div class="signature">Frank Sinatra</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom paragraph -->
-      <div class="mt-5 text-center" data-aos="fade-up">
-        <p>There are basically six key areas to higher achievement. Some people will tell you there are four while others may tell you there are eight. One thing for certain though, is that irrespective of the number of steps the experts talk about, they all originate from the same roots.</p>
-      </div>
-    </div>
-  </section>
-<!-- ------------------------------------------------------------------------------------- -->
-  <!-- Section Title -->
-  <section class="process-title-section">
-    <h2 data-aos="fade-down">Our Easy Step</h2>
-  </section>
-
-  <!-- Step Section -->
-  <section class="step-section container">
-    <div class="container-fluid">
-      <div class="row g-0">
-        <!-- Left Content -->
-        <div class="col-md-6 step-left" data-aos="fade-right">
-          <img src="https://themes.potenzaglobalsolutions.com/html/interium/images/step/icon/01.svg" alt="Icon" class="step-icon">
-          <h3 class="step-title">Furniture Selection</h3>
-          <p class="step-description">
-            Furniture selection becomes an enjoyable and rewarding journey, resulting in a space that is stylish,
-            comfortable, and uniquely yours.
-          </p>
-          <div class="step-number">01</div>
-        </div>
-        <!-- Right Image -->
-        <div class="col-md-6 step-image image-hover" data-aos="fade-left">
-          <img src="https://themes.potenzaglobalsolutions.com/html/interium/images/step/01.jpg" alt="Room Image" style="height: 400px;">
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- Step Section -->
-  <section class="step-section container" style="margin-top: 50px;">
-    <div class="container-fluid">
-      <div class="row g-0">
-           <!-- Right Image -->
-        <div class="col-md-6 step-image  image-hover" data-aos="fade-left">
-          <img src="https://themes.potenzaglobalsolutions.com/html/interium/images/step/02.jpg" alt="Room Image" style="height: 400px;">
-        </div>
-        <!-- Left Content -->
-        <div class="col-md-6 step-left" data-aos="fade-right">
-          <img src="https://themes.potenzaglobalsolutions.com/html/interium/images/step/icon/03.svg" alt="Icon" class="step-icon">
-          <h3 class="step-title">Furniture Selection</h3>
-          <p class="step-description">
-            Furniture selection becomes an enjoyable and rewarding journey, resulting in a space that is stylish,
-            comfortable, and uniquely yours.
-          </p>
-          <div class="step-number">02</div>
-        </div>
-     
-      </div>
-    </div>
-  </section>
-<!-- ------------------------------------------------------------------------------------- -->
-<section class="design-section">
-  <div class="container-fluid px-4">
-    <div class="row g-4">
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="design-card">
-          <img src="./images/s1.jpg" alt="Design 1">
-          <div class="overlay">
-            <div class="text">
-              <h4>Unique</h4>
-              <p>INTERIOR DESIGN</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="design-card">
-          <img src="./images/s2.jpg" alt="Design 2">
-          <div class="overlay">
-            <div class="text">
-              <h4>Modern</h4>
-              <p>INTERIOR DESIGN</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="design-card">
-          <img src="./images/s3.jpg" alt="Design 3">
-          <div class="overlay">
-            <div class="text">
-              <h4>Cozy</h4>
-              <p>INTERIOR DESIGN</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-3">
-        <div class="design-card">
-          <img src="./images/s4.jpg" alt="Design 4">
-          <div class="overlay">
-            <div class="text">
-              <h4>Stylish</h4>
-              <p>INTERIOR DESIGN</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- ------------------------------------------------------------- -->
+  <!-- Photo Recovery -->
+  <div class="feature-box" data-aos="fade-up">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6 order-md-2 image-hover">
+        <img src="https://img.freepik.com/free-photo/3d-modern-lamp-design_23-2151047612.jpg?uid=R195395238&ga=GA1.1.1975205788.1747372593&semt=ais_hybrid&w=740" alt="Photo Recovery" class="feature-image">
+      </div>
+      <div class="col-md-6 order-md-1">
+        <h4 class="fw-bold">IMAGE-GALLERY</h4>
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi alias placeat earum corporis libero incidunt totam laboriosam hic optio reprehenderit laudantium, temporibus excepturi fugiat tempora aliquid omnis minus eos quisquam labore exercitationem voluptate magnam dicta.</p>
+        <a href="image-gallery.html"> <button class="read-more-btn cta mt-3">Read More →</button></a>
+
+      </div>
+    </div>
+  </div>
+    <!-- FAQS -->
+  <div class="feature-box" data-aos="fade-up">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6 image-hover">
+        <img src="https://img.freepik.com/free-photo/view-futuristic-lighting-lamp-design_23-2151037475.jpg?uid=R195395238&ga=GA1.1.1975205788.1747372593&semt=ais_hybrid&w=740" alt="Tic Tac Toe Pro" class="feature-image">
+      </div>
+      <div class="col-md-6">
+        <h4 class="fw-bold">FAQs</h4>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti laborum modi id libero nesciunt aperiam quo beatae, iusto impedit quasi molestias cupiditate quae ut suscipit sunt repudiandae dolor enim?.</p>
+           <a href="faqs.html"> <button class="read-more-btn cta mt-3">Read More →</button></a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 404 -->
+  <div class="feature-box" data-aos="fade-up">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6 order-md-2 image-hover">
+        <img src="https://img.freepik.com/free-photo/room-house-decorated-with-brazilian-folklore-design_23-2150794123.jpg?uid=R195395238&ga=GA1.1.1975205788.1747372593&semt=ais_hybrid&w=740" alt="Photo Recovery" class="feature-image">
+      </div>
+      <div class="col-md-6 order-md-1">
+        <h4 class="fw-bold">404</h4>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo natus numquam, corporis aut cupiditate dicta omnis qui est nesciunt assumenda soluta beatae, accusamus illum fugiat odio odit ullam facere.</p>
+              <a href="error.html"> <button class="read-more-btn cta mt-3">Read More →</button></a>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <footer class="footer" style="color: #ffffff;">
   <div class="container">
     <div class="footer-logo">
@@ -591,9 +595,11 @@
     <div class="mt-4 text-end">
       <h6>Follow Our Socials</h6>
       <div class="social-icon mt-2">
-        <a href="#"><i class="fab fa-facebook-f" style="color: #ffffff;"></i></a>
-        <a href="#"><i class="fab fa-dribbble" style="color: #ffffff;"></i></a>
-        <a href="#"><i class="fab fa-instagram" style="color: #ffffff;"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+
       </div>
     </div>
 

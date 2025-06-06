@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Inspaire - Interior Design</title>
-
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
@@ -18,16 +18,31 @@
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
+      background: #111; /* thoda contrast ke liye */
     }
 
     header {
-      background-color: #1e1f22;
       padding: 10px 20px;
-      position: relative;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.205);
+      background: transparent;
+      transition: background-color 0.3s ease;
+    }
+    /* Background on scroll (optional) */
+    window-scrolled header {
+      background-color: rgba(30, 31, 34, 0.9);
+    }
+
+    .navbar-container {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
+      padding: 10px;
     }
 
     .logo {
@@ -36,6 +51,8 @@
       color: white;
       font-weight: bold;
       font-size: 20px;
+      margin-right: 20px;
+      user-select: none;
     }
 
     .logo img {
@@ -47,134 +64,142 @@
 
     nav {
       flex-grow: 1;
-      text-align: center;
+      display: flex;
+      justify-content: center;
     }
 
     nav ul {
       list-style: none;
-      padding-left: 0;
       margin: 0;
+      padding: 0;
       display: flex;
-      justify-content: center;
+      gap: 20px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     nav ul li {
       position: relative;
-      margin: 0 12px;
     }
 
     nav ul li a {
       color: white;
       text-decoration: none;
-      padding: 8px 10px;
+      padding: 6px 10px;
       display: block;
+      line-height: 1.2;
+      user-select: none;
     }
 
+    /* Arrow for dropdown parent items */
     .has-dropdown > a::after {
       content: " ▼";
       font-size: 0.7rem;
+      margin-left: 4px;
     }
 
+    /* Dropdown container */
     .dropdown {
       position: absolute;
-      display: none;
-      background: #333;
-      padding: 10px 0;
-      border-radius: 4px;
       top: 100%;
       left: 0;
+      background: #657463;
+      border-radius: 4px;
       min-width: 160px;
-      z-index: 1000;
-      align-items: start;
+      max-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      z-index: 999;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
     }
 
-    .has-dropdown:hover .dropdown {
-      display: block;
+    /* Dropdown active state */
+    .has-dropdown.active > .dropdown,
+    nav ul li:hover > .dropdown {
+      max-height: 500px; /* enough to show all items */
+      padding: 10px 0;
     }
 
     .dropdown a {
-      display: block;
       padding: 8px 16px;
       color: white;
       text-decoration: none;
-      justify-content: start;
-      align-items: start;
-      text-align: start;
-
+      white-space: nowrap;
+      user-select: none;
     }
 
     .dropdown a:hover {
-      background-color: #555;
+      background: #4d5c4adc;
     }
 
- .cta {
-  position: relative;
-  display: inline-block;
-  padding: 0.6rem 1rem;
-  color: white;
-  background: #657463;
-  border: 2px solid #657463;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  overflow: hidden;
-  transition: background 0.3s ease;
-  z-index: 1;
-}
+    /* Call to action button */
+    .cta {
+      padding: 0.6rem 1rem;
+      color: white;
+      background: #657463;
+      border: 2px solid #657463;
+      border-radius: 4px;
+      font-weight: bold;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
 
-.cta::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: skewX(-20deg);
-  transition: left 0.5s ease;
-  z-index: 2;
-}
+    .cta::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+      z-index: 2;
+    }
 
-.cta:hover::before {
-  left: 125%;
-}
+    .cta:hover::before {
+      left: 125%;
+    }
 
-.cta:hover {
-  background: #5b685a;
-}
+    .cta:hover {
+      background: #5b685a;
+    }
 
-/* Hamburger toggle button */
-.menu-toggle {
-  display: none;
-  font-size: 1.8rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  user-select: none;
-}
-
-
+    /* Hamburger menu toggle */
     .menu-toggle {
       display: none;
-      font-size: 24px;
+      font-size: 28px;
       background: none;
       color: white;
       border: none;
+      cursor: pointer;
+      user-select: none;
     }
 
-    @media (max-width: 768px) {
-      header {
+    /* Mobile styles */
+    @media (max-width: 1087px) {
+      .navbar-container {
         flex-direction: column;
         align-items: flex-start;
+      }
+
+      header {
+        background-color: rgba(30, 31, 34, 0.95);
+        border-bottom: 1px solid white;
       }
 
       .menu-toggle {
         display: block;
         align-self: flex-end;
-        margin-top: -40px;
+        margin-top: -45px;
+        margin-bottom: 10px;
       }
 
       nav {
@@ -186,6 +211,8 @@
         align-items: flex-start;
         display: none;
         width: 100%;
+        margin-top: 0;
+        padding-left: 0;
       }
 
       nav ul.active {
@@ -197,98 +224,293 @@
         border-bottom: 1px solid #444;
       }
 
-      .dropdown {
-        position: relative;
-        background: #2a2a2a;
-        padding-left: 20px;
+ .dropdown {
+    position: relative;
+    background: #2a2a2a;
+    padding-left: 15px; /* thoda kam kiya */
+    border-radius: 0;
+    min-width: unset;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    margin: 0; /* extra space hatao */
+  }
+  .has-dropdown.active .dropdown {
+    display: flex;
+    max-height: 400px; /* thoda kam kiya */
+    padding-top: 8px;  /* kam padding */
+    padding-bottom: 8px; /* kam padding */
+    flex-direction: column;
+    margin: 0; /* margin hatao */
+  }
+  
 
-      }
-
-      .has-dropdown:hover .dropdown {
-        display: none;
-      }
-
-      .has-dropdown.active .dropdown {
-        display: block;
+      /* Show dropdown when active in mobile */
+      .has-dropdown.active > .dropdown {
+        max-height: 500px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        flex-direction: column;
       }
 
       .cta {
-        margin: 10px 0;
+        display: none;
       }
-      nav ul a{
-        text-align: start;
-      }
+        nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    display: none;
+    width: 100%;
+    margin-top: 10px;
+  }
+  nav ul.active {
+    display: flex;
+  }
+  nav ul li {
+    width: 100%;
+    border-bottom: 1px solid #444;
+    position: relative;  /* Add this */
+  }
+  .dropdown {
+    position: absolute;   /* Change from relative to absolute */
+    top: 100%;           /* Exactly parent ke niche */
+    left: 0;
+    background: #657463;
+    padding-left: 15px;
+    border-radius: 0;
+    min-width: 100%;     /* Full width of parent li */
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    margin: 0;
+    z-index: 1000;
+  }
+  .has-dropdown.active .dropdown {
+    display: flex;
+    max-height: 400px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    flex-direction: column;
+    margin: 0;
+  }
     }
+
+    /* Hero section styles */
+    .hero {
+      background: url('./images/hero.avif') no-repeat center center/cover;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 120px;
+      text-align: center;
+      color: white;
+      user-select: none;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero-content h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      opacity: 0.85;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      margin: 20px 0 30px;
+      line-height: 1.5;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background-color: #657463;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #54604f;
+    }
+
+    .btn-secondary {
+      background-color: white;
+      color: #657463;
+      border: 2px solid #657463;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #657463;
+      color: white;
+    }
+    
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <img src="https://cdn-icons-png.freepik.com/256/12954/12954067.png" alt="Logo">
-    Inspaire
+  <div class="navbar-container">
+    <div class="logo">
+      <img src="https://cdn-icons-png.freepik.com/256/12954/12954067.png" alt="Logo" />
+      Inspaire
+    </div>
+
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+
+    <nav>
+      <ul id="menu">
+        <li class="has-dropdown">
+          <a href="index.html">Home</a>
+          <div class="dropdown">
+            <a href="home-image.html">Home-Image</a>
+            <a href="home-video.html">Home-Video</a>
+            <a href="home-slider.html">Home-Slider</a>
+          </div>
+        </li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="service.html">Services</a></li>
+        <li><a href="project.html">Projects</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li class="has-dropdown">
+          <a href="pages.html">Pages</a>
+          <div class="dropdown">
+            <a href="Service-Details.html">Service Details</a>
+            <a href="project-details.html">Project Details</a>
+            <a href="blog-details.html">Blog Details</a>
+            <a href="image-gallery.html">Image Gallery</a>
+            <a href="faqs.html">FAQs</a>
+            <a href="error.html">404</a>
+          </div>
+        </li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <a href="contact.html"><button class="cta">Get In Touch →</button></a>
   </div>
-
-  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-    ☰
-  </button>
-
-  <nav>
-    <ul id="menu">
-  <li class="has-dropdown">
-        <a href="index.html">Home</a>
-        <div class="dropdown">
-          <a href="Service-Details.html">Home-Image</a>
-          <a href="Service-Details.html">Home-Video</a>
-          <a href="Service-Details.html">Home-Slider</a>
-       
-        </div>
-      </li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="service.html">Services</a></li>
-      <li><a href="project.html">Projects</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li class="has-dropdown">
-        <a href="pages.html">Pages</a>
-        <div class="dropdown">
-          <a href="Service-Details.html" style="text-align: start  ;">Service Details</a>
-          <a href="project-details.html">Project Details</a>
-          <a href="blog-details.html">Blog Details</a>
-          <a href="image-gallery.html">Image Gallery</a>
-          <a href="faqs.html">FAQs</a>
-          <a href="error.html">404</a>
-        </div>
-      </li>
-      <li><a href="contact.html">Contact Us</a></li>
-      <li>
-        <a href="contact.html"><button class="cta">Get In Touch →</button></a>
-      </li>
-    </ul>
-  </nav>
 </header>
-<!-- -----------------------------------heroooooooooooooooo------------------------ -->
 
- <section class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h2>→ Inspired Interiors</h2>
-      <h1>Designing your dream spaces,one room at a time</h1>
-      <p>
-        We specialize in creating personalized, functional, and stylish interiors that
-        reflect your unique vision.
-      </p>
-      <div class="hero-buttons">
-        <button class="btn-primary cta">Explore More →</button>
-        <button class="btn-secondary">View Projects →</button>
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h2 style="text-align: start;">— Inspired Interiors</h2>
+    <h1 style="font-size: 80px;text-align: start;">Designing your dream spacesone room at a time</h1>
+    <p style="text-align: start;">We specialize in creating personalized, functional, <br>and stylish interiors that reflect your unique vision.</p>
+    <div class="hero-buttons" style="justify-content: start;">
+      <button class="btn-primary">Explore More →</button>
+      <button class="btn-secondary">View Projects →</button>
+    </div>
+  </div>
+</section>
+<!-- --------------------------------------about------------------------------------- -->
+ <section class="about-section">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <!-- Left Images -->
+      <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+        <div class="img-wrapper position-relative ">
+          <img   src="https://img.freepik.com/free-photo/stylish-scandinavian-living-room-with-design-mint-sofa-furnitures-mock-up-poster-map-plants-eleg_1258-152155.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_hybrid&w=740" class="img-main" alt="Main Room Image" style="margin-top: 50px;height: 500px;object-fit: cover;" >
+          <img src="https://img.freepik.com/free-photo/view-futuristic-lighting-lamp-design_23-2151037504.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_hybrid&w=740" class="img-overlap" alt="Secondary Room Image" style="margin-top: -50px;">
+
+          <div class="circle-badge">
+            <div style="font-size: 26px;">15+</div>
+            <div style="font-size: 14px;">Years Of<br>Experience</div>
+          </div>
+
+          <div class="feedback-vertical">
+            <div class="circle" style="margin-left: -10px;">95%</div>
+            <div class="text">Positive Feedback</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Content -->
+      <div class="col-lg-6" data-aos="fade-left">
+        <p class="mb-2" style="color: #657463;">—About Us</p>
+        <h2 class="about-title mb-3">
+          Our passion for design,<br>
+          <span>your vision realized</span>
+        </h2>
+        <p class="text-muted mb-4">
+          Our dedicated team of designers works closely with you to understand your vision and bring it to life with thoughtful attention to detail. Whether it's transforming a single room or an entire home.
+        </p>
+        <ul class="feature-list">
+          <li><i class="fa-solid fa-circle-check"></i>creative expertise</li>
+          <li><i class="fa-solid fa-circle-check"></i>client-centered approach</li>
+        </ul>
+
+        <div class="help-contact">
+          <i class="bi bi-telephone-fill"></i>
+          <div>
+            <p class="fw-bold mb-0">+1 235 800 999</p>
+            <small>Need Any Help?</small>
+          </div>
+        </div>
+
+        <div class="author">
+          <img src="https://img.freepik.com/free-photo/portrait-beautiful-young-woman-standing-grey-wall_231208-10760.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_hybrid&w=740" alt="Leslie Alexander" style="object-fit: cover;">
+          <div>
+            <p class="fw-bold mb-0">Leslie Alexander</p>
+            <small>Co Founder</small>
+          </div>
+        </div>
+
+        <button class="btn btn-custom cta" style="border-radius: 0%;">Read More <i class="fa-solid fa-arrow-right-long"></i></button>
       </div>
     </div>
-  </section>
-<!-- --------------------------------------about------------------------------------- -->
-<section class="about-section">
+  </div>
+</section>
+
+<!-- <section class="about-section">
   <div class="container">
     <div class="row align-items-center g-5">
-      
-      <!-- Left: Images -->
+  
       <div class="col-lg-6" data-aos="fade-right">
         <div class="image-container">
           <div class="feedback-vertical">95% Positive Feedback</div>
@@ -300,7 +522,6 @@
         </div>
       </div>
 
-      <!-- Right: Text Content -->
       <div class="col-lg-6" data-aos="fade-left">
         <small class="text-muted" style="color: #657463;font-size: 18px;">—About Us</small>
         <h2 style="font-weight: bolder;font-size: 46px;">Our passion for design, <br><span class="" style="color: #657463;">your vision realized</span></h2>
@@ -334,13 +555,13 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 <!-- ---------------------------------------------------------------------------------------------- -->
  <div class="container py-5" style="color: #1e1f22;">
   <div class="row align-items-start g-5">
     
     <!-- Text Column -->
-    <div class="col-lg-5">
+    <div class="col-lg-6">
       <div class="mb-2 section-subtitle" style="color: #657463;font-size: 18px;">—Why Choose Us</div>
       <h2 class="section-title mb-3" style="font-size: 46px;font-weight: bolder;" >A behind the scenes look at <span class="" style="color: #657463;">our agency</span></h2>
       <p class="mb-4" >From concept to completion, discover how we bring your vision to life with innovation, collaboration, and expert craftsmanship.</p>
@@ -392,12 +613,12 @@
             <img src="https://img.freepik.com/free-photo/3d-rendering-modern-dining-room-living-room-with-luxury-decor_105762-2000.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_items_boosted&w=740" alt="Image 3" style="height: 300px;width: 100%;object-fit: cover;">
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-6">
           <div class="image-hover img-hover-3">
             <img src="https://img.freepik.com/free-photo/modern-living-room-interior-design_23-2150794716.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_items_boosted&w=740" alt="Image 3" style="height: 300px;width: 100%;object-fit: cover;">
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-6">
           <div class="image-hover img-hover-3">
             <img src="https://img.freepik.com/free-photo/ai-generated-modern-styled-entryway_23-2150692383.jpg?uid=R170429332&ga=GA1.1.1068734637.1747390429&semt=ais_items_boosted&w=740" alt="Image 3" style="height: 300px;width: 100%;object-fit: cover;">
           </div>
@@ -415,8 +636,8 @@
 <section class="container py-5">
   <div class="row mb-4">
     <div class="col-md-6" data-aos="fade-right">
-      <p class="text-muted small" style="color: #657463;font-size: 18px;">— Our Services</p>
-      <h2 class="section-title" style="color: #1e1f22;">Innovative design services<br><span class="section-subtitle">for every need</span></h2>
+      <p class="" style="color: #657463;font-size: 18px;font-weight: bolder;">— Our Services</p>
+      <h2 class="section-title" style="color: #1e1f22;font-size: 50px;">Innovative design services<br><span class="section-subtitle">for every need</span></h2>
     </div>
     <div class="col-md-6 d-flex align-items-center" data-aos="fade-left">
       <p class="text-muted">We offer a range of bespoke interior design services tailored to your unique needs. From concept development to final installation.</p>
@@ -615,57 +836,54 @@
 </section>
 
 <!-- ------------------------------------progressssssssssss------------------------- -->
- <section class="skill-section">
+<section class="skill-section">
   <div class="container">
     <div class="row align-items-center">
       <!-- Left Column -->
       <div class="col-lg-6" data-aos="fade-right">
-        <p class=" mb-2" style="color: #657463;font-size: 18px;">— Our Skills</p>
-        <h2 class="section-title" style="font-weight: bolder;">Skills that shape your <span class="" style="color: #657463;">dream home</span></h2>
+        <p class="subtitle mb-2">— Our Skills</p>
+        <h2 class="section-title">
+          Skills that shape your <span class="highlight">dream home</span>
+        </h2>
         <p class="text-muted mb-4">
           Our dedicated team of designers works closely with you to understand your vision and bring it to life with thoughtful attention to detail.
         </p>
-          <p class="text-muted mb-4">
+        <p class="text-muted mb-4">
           Our dedicated team of designers works closely with you to understand your vision and bring it to life with thoughtful attention to detail closely with you to understand your vision and bring it to life with thoughtful attention to detail..
         </p>
 
-        <!-- Skill 1 -->
+        <!-- Skills -->
         <div class="mb-4">
           <div class="progress-text">
-            <span style="color: #192324;">Space Planning And Layout</span>
-            <span style="color: #192324;">95%</span>
+            <span>Space Planning And Layout</span>
+            <span>95%</span>
           </div>
           <div class="progress">
             <div class="progress-bar" style="width: 95%;"></div>
           </div>
         </div>
-
-        <!-- Skill 2 -->
         <div class="mb-4">
           <div class="progress-text">
-            <span style="color: #192324;">Project Challenges And Solutions</span>
-            <span style="color: #192324;">85%</span>
+            <span>Project Challenges And Solutions</span>
+            <span>85%</span>
           </div>
           <div class="progress">
             <div class="progress-bar" style="width: 85%;"></div>
           </div>
         </div>
-
-        <!-- Skill 3 -->
         <div class="mb-4">
           <div class="progress-text">
-            <span style="color: #192324;">Sustainability And Eco-Friendly Features</span>
-            <span style="color: #192324;">75%</span>
+            <span>Sustainability And Eco-Friendly Features</span>
+            <span>75%</span>
           </div>
           <div class="progress">
             <div class="progress-bar" style="width: 75%;"></div>
           </div>
         </div>
-            <!-- Skill 3 -->
         <div class="mb-4">
           <div class="progress-text">
-            <span style="color: #192324;">Sustainability And Eco-Friendly Features</span>
-            <span style="color: #192324;">75%</span>
+            <span>Attention to Detail</span>
+            <span>90%</span>
           </div>
           <div class="progress">
             <div class="progress-bar" style="width: 90%;"></div>
@@ -676,15 +894,15 @@
       <!-- Right Column -->
       <div class="col-lg-6" data-aos="fade-left">
         <div class="image-grid">
-          <div class="row">
-            <div class="col-12 mb-3 image-hover">
-              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8ZGVjb3J8ZW58MHx8MHx8fDA%3D" alt="Living Room" style="height: 300px;object-fit: cover;">
+          <div class="row g-3">
+            <div class="col-12 image-hover">
+              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=60" alt="Living Room" />
             </div>
             <div class="col-6 image-hover">
-              <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZGVjb3J8ZW58MHx8MHx8fDA%3D" alt="Green Sofa Room" style="height: 300px;">
+              <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800&auto=format&fit=crop&q=60" alt="Green Sofa Room" />
             </div>
             <div class="col-6 image-hover">
-              <img src="https://plus.unsplash.com/premium_photo-1682259448848-90967eec2edb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZGVjb3J8ZW58MHx8MHx8fDA%3D" alt="Yellow Theme Room" style="height: 300px;object-fit: cover;">
+              <img src="https://plus.unsplash.com/premium_photo-1682259448848-90967eec2edb?w=800&auto=format&fit=crop&q=60" alt="Yellow Theme Room" />
             </div>
           </div>
         </div>
@@ -696,54 +914,44 @@
 
 <!-- ------------------------------------------------------------------------------------- -->
 
-<section class="testimonial-section">
-  <div class="containe">
-    <div class="row align-items-center g-5">
-      <!-- Left Image -->
-      <div class="col-lg-6" data-aos="fade-right">
-        <div class=" image-hover testimonial-image shadow"></div>
-      </div>
+  <section class="testimonial-section">
+    <!-- Left Image Side -->
+    <div class="testimonial-left image-hover" data-aos="fade-right" style="height: 800px;"></div>
 
-      <!-- Right Content -->
-      <div class="col-lg-6" data-aos="fade-left">
-        <div class="testimonial-content">
-          <h6 style="color: #657463;">— Client Testimonials</h6>
-          <h2>
-            Trusted by thousand of <br />
-            <span style="color: #657463;">people & companies.</span>
-          </h2>
-          <div class="stars mt-3 mb-2">
-            ★★★★★
-          </div>
-          <p class="quote-text">
-            I couldn't be happier with the transformation of my home! From our very first consultation,<br> the team at took the time to understand my vision and preferences.
-          </p>
-          <div class="user-info">
-            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Arlene McCoy" />
-            <div class="user-details">
-              <h6>Arlene McCoy</h6>
-              <small>Co Founder</small>
-            </div>
-          </div>
-          <div class="review-rating">
-            <div class="score">4.82</div>
-            <div>
-              <div class="review-stars">★★★★★</div>
-              <div class="review-count">2,488 reviews</div>
-            </div>
-          </div>
+    <!-- Right Text Side -->
+    <div class="testimonial-right" data-aos="fade-left">
+      <div class="" style="color: #657463;">—Client Testimonials</div>
+      <div class="testimonial-title">Trusted by thousand of <span>people & companies.</span></div>
+      <div class="testimonial-rating mt-3">
+        <i class="fas fa-star"></i> 
+        <i class="fas fa-star"></i> 
+        <i class="fas fa-star"></i> 
+        <i class="fas fa-star"></i> 
+        <i class="fas fa-star"></i>
+      </div>
+      <div class="testimonial-text">
+       I couldn't be happier with the transformation of my home! From our very first consultation, the team at took the time to understand my vision and preferences.
+      </div>
+      <div class="testimonial-user">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" />
+        <div>
+          <strong>Arlene McCoy</strong><br/>
+          <small>Co. Founder</small>
         </div>
       </div>
+      <div class="testimonial-score">
+        4.82
+        <small>★★★★   <br>2,488 reviews</small>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 <!-- ----------------------------------------------------------------------------------- -->
 
   <section class="container py-5" style="color: #192324;">
     <div class="row mb-4">
       <div class="col-lg-6" >
         <p class="blog-subheading mb-2" style="color: #657463;font-size: 20px;">—Latest News</p>
-        <h2 class="blog-heading">Your guide to inspired <br> <span style="color: #657463;">interiors</span></h2>
+        <h2 class="blog-heading" style="font-size: 50px;"><span style="color: #657463;">Your guide to inspired</span> <br> <span>interiors</span></h2>
       </div>
       <div class="col-lg-6 d-flex align-items-center justify-content-lg-end" data-aos="fade-up" data-aos-delay="100">
         <p class="text-muted text-lg-end">
@@ -786,7 +994,75 @@
   </section>
 
 <!-- -------------------------------------------------------------------------------------------- -->
- 
+<!-- ------------------------------------------------------------- -->
+<footer class="footer" style="color: #ffffff;">
+  <div class="container">
+    <div class="footer-logo">
+      <img src="https://cdn-icons-png.freepik.com/256/12954/12954067.png" alt="Logo" />
+      <h4 class="mb-0">inspaìre</h4>
+    </div>
+    <div class="row">
+      <!-- Information -->
+      <div class="col-md-3">
+        <h5>Information</h5>
+        <ul>
+          <li><a href="#">About Our Company</a></li>
+          <li><a href="#">View Our Service</a></li>
+          <li><a href="#">Careers At Company</a></li>
+          <li><a href="#">Read Our Blog</a></li>
+          <li><a href="#">Our Latest Projects</a></li>
+        </ul>
+      </div>
+
+      <!-- Portfolio -->
+      <div class="col-md-3">
+        <h5>Portfolio</h5>
+        <ul>
+          <li><a href="#">Luxury Home Design</a></li>
+          <li><a href="#">Residential Interior Design</a></li>
+          <li><a href="#">Commercial Space Design</a></li>
+          <li><a href="#">Residential Interior Design</a></li>
+          <li><a href="#">Renovation And Restoration Design</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="col-md-3">
+        <h5>Contact Us</h5>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> +1 (213) 465 789</p>
+          <p><i class="fas fa-envelope"></i> info@domain.com</p>
+          <p><i class="fas fa-location-dot"></i> Generata Ziętka Jerzego 54,<br> Myslowice 41-412</p>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="col-md-3">
+        <h5>Get The Latest Trending News</h5>
+        <p>Your Dream Space Starts Here Get<br> Exclusive Design Straight Your Inbox!</p>
+        <form class="d-flex">
+          <input type="email" class="form-control" placeholder="Enter your email">
+          <button class="btn" type="submit"><i class="fas fa-arrow-right" style="color: white;"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="mt-4 text-end">
+      <h6>Follow Our Socials</h6>
+      <div class="social-icon mt-2">
+        <a href="#"><i class="fab fa-facebook-f" style="color: #ffffff;"></i></a>
+        <a href="#"><i class="fab fa-dribbble" style="color: #ffffff;"></i></a>
+        <a href="#"><i class="fab fa-instagram" style="color: #ffffff;"></i></a>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="footer-bottom mt-4">
+      <p>Copyright © 2024 All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
 
 
 
@@ -839,7 +1115,6 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-<!-- JS Script for toggling -->
 <script>
   const menuToggle = document.querySelector(".menu-toggle");
   const menu = document.getElementById("menu");
@@ -853,21 +1128,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
   dropdownToggles.forEach(toggle => {
     toggle.addEventListener("click", e => {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 1087) {
         e.preventDefault();
         const parentLi = toggle.parentElement;
+
+        // Close other open dropdowns if any
+        document.querySelectorAll(".has-dropdown").forEach(li => {
+          if (li !== parentLi) li.classList.remove("active");
+        });
+
         parentLi.classList.toggle("active");
       }
     });
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 1087) {
       menu.classList.remove("active");
       document.querySelectorAll(".has-dropdown").forEach(li => li.classList.remove("active"));
+      menuToggle.setAttribute("aria-expanded", false);
     }
   });
 </script>
-
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 </body>
 </html>
